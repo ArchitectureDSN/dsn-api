@@ -1,3 +1,3 @@
-Ce kit de développement utilise contient à la fois
+Ce kit de développement contient à la fois
 - des services qui implémentent les contrôles et des cas métier d'exemple
 - des tests unitaires (JUnit 5) qui valident toutes les fonctionnalités des services, ainsi que tous les cas d'erreurs
