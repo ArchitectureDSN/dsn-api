@@ -39,7 +39,8 @@ public class RestApplication extends Application {
         singletons.add(new ServiceRechercherDepotsParConcentrateur());
         singletons.add(new ServiceRechercherDepotsParConcentrateur2());
 
-        singletons.add(new ServiceRechercheBPIJ());
+        singletons.add(new ServiceRechercheBpijParConcentrateur());
+        singletons.add(new ServiceRechercheBpijParDeclarant());
 
         singletons.add(new ExpiresHeaderFilter());
     }

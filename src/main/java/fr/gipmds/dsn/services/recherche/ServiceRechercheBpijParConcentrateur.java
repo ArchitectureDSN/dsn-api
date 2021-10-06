@@ -1,7 +1,6 @@
 package fr.gipmds.dsn.services.recherche;
 
 import fr.gipmds.dsn.test.resources.Concentrateur;
-import fr.gipmds.dsn.test.resources.Declarant;
 import fr.gipmds.dsn.test.resources.TestData;
 import fr.gipmds.dsn.utils.Base64Utils;
 import fr.gipmds.dsn.utils.DateUtils;
@@ -20,12 +19,12 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Map;
 
-@Path("/lister-bpij")
+@Path("/lister-bpij-concentrateur")
 @Produces(MediaType.APPLICATION_XML)
 @GZIP
 @NoCache
 @Formatted
-public class ServiceRechercheBPIJ {
+public class ServiceRechercheBpijParConcentrateur {
 
     @GET
     @Path("1.0/{debut}")
@@ -70,71 +69,31 @@ public class ServiceRechercheBPIJ {
         Map<String, String> headerMap = SecurityUtils
                 .parseAuthorizationHeader(headerAuthorization);
 
-        // Traitement pour logiciel de paie
-        if (headerMap.get("jeton") != null) {
-            String jeton = headerMap.get("jeton");
-
-            // 401 JETON not base64
-            if (!Base64.isBase64(jeton))
-                return SecurityUtils.jetonManquantOuInvalide;
-
-            jeton = Base64Utils.decode(jeton);
-            Map<String, String> snpMap = SecurityUtils.parseToken(jeton);
-
-            // 401 JETON bad header
-            if (snpMap.size() != 3)
-                return SecurityUtils.jetonManquantOuInvalide;
-
-            // 401 déclarant non-inscrit
-            Declarant inscrit = TestData.declarantInscrit;
-            if (!inscrit.siret.equals(snpMap.get("siret"))
-                    || !inscrit.nom.equals(snpMap.get("nom"))
-                    || !inscrit.prenom.equals(snpMap.get("prenom")))
-                return SecurityUtils.utilisateurNonInscrit;
-        }
         // Traitement pour concentrateur
-        else if (headerMap.get("concentrateur") != null
-                && headerMap.get("declarant") != null) {
+        if (headerMap.get("concentrateur") != null) {
 
             String concentrateur = headerMap.get("concentrateur");
-            String declarant = headerMap.get("declarant");
 
             // 401 JETON not base64
-            if (!Base64.isBase64(concentrateur)
-                    || !Base64.isBase64(declarant))
+            if (!Base64.isBase64(concentrateur))
                 return SecurityUtils.jetonManquantOuInvalide;
 
             concentrateur = Base64Utils.decode(concentrateur);
-            declarant = Base64Utils.decode(declarant);
             Map<String, String> ctrMap = SecurityUtils
                     .parseToken(concentrateur);
-            Map<String, String> snpMap = SecurityUtils
-                    .parseDeclarantSNP(declarant);
 
             // 401 CONCENTRATEUR bad header
             if (ctrMap.size() != 3)
                 return SecurityUtils.jetonManquantOuInvalide;
 
-            // 401 concentrateur non-inscrit
+            // 401 CONCENTRATEUR non-inscrit
             Concentrateur inscrit = TestData.concentrateurInscrit;
             if (!inscrit.siret.equals(ctrMap.get("siret"))
                     || !inscrit.nom.equals(ctrMap.get("nom")))
                 return SecurityUtils.utilisateurNonInscrit;
 
-            // 401 DECLARANT bad header
-            if (snpMap.size() != 3)
-                return SecurityUtils.jetonManquantOuInvalide;
-
-            // 401 déclarant non-inscrit
-            if (!TestData.declarantInscrit.siret
-                    .equals(snpMap.get("siret"))
-                    || !TestData.declarantInscrit.nom.equals(snpMap
-                    .get("nom"))
-                    || !TestData.declarantInscrit.prenom.equals(snpMap
-                    .get("prenom")))
-                return SecurityUtils.utilisateurNonInscrit;
         } else {
-            // Ni logiciel de paie, ni concentrateur
+            // Pas un concentrateur
             return SecurityUtils.jetonManquantOuInvalide;
         }
 

@@ -26,8 +26,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(JunitServerExtension.class)
-@DisplayName("Rechercher Retours BPIJ")
-public class RechercherRetoursBPIJTest extends BaseTestClass {
+@DisplayName("Rechercher Retours BPIJ Declarant")
+public class RechercherRetoursBpijParDeclarantTest extends BaseTestClass {
 
     @Test
     @DisplayName("Rechercher 404 Plage Manquante Test")
@@ -35,7 +35,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
         // plage manquant
-        URI uri = new URI(getServerUrl() + "/lister-bpij/1.0/");
+        URI uri = new URI(getServerUrl() + "/lister-bpij-declarant/1.0/");
         ResteasyWebTarget target = client.target(uri);
         Invocation.Builder builder = target.request();
         Invocation invocation = builder.buildGet();
@@ -52,7 +52,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
         // date debut mauvais format
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/120000/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/120000/20130101");
         Invocation.Builder builder = target.request();
         Invocation invocation = builder.buildGet();
         // When
@@ -68,7 +68,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
         // date fin mauvais format
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/2013");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/2013");
         Invocation.Builder builder = target.request();
         Invocation invocation = builder.buildGet();
         // When
@@ -83,7 +83,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401AUTHORIZATIONMauvaisTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("declarent", "SNP"); // valeur  declarant non valide
@@ -102,7 +102,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401AUTHORIZATIONManquantTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Invocation invocation = builder.buildGet();
         // Authorization manquant
@@ -119,7 +119,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401JETONMauvaisTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("jeton", Base64Utils.encode("Not a é valid token"));  // valeur jeton non valide (pas en base 64)
@@ -139,7 +139,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401CONCENTRATEURMauvaisTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("concentrateur", Base64Utils.encode("Not a é valid token"));// valeur concentrateur non valide
@@ -160,7 +160,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401DECLARANTMauvaisTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("concentrateur", TestData.concentrateurInscrit.getFauxJeton());
@@ -180,7 +180,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401JETONNullTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("jeton", null); // jeton non valide
@@ -200,7 +200,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401CONCENTRATEURNullTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("concentrateur", null); // valeur concentrateur non valide
@@ -221,7 +221,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401DECLARANTNullTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("concentrateur", TestData.concentrateurInscrit.getFauxJeton());
@@ -242,7 +242,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401JETONNonInscritTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("jeton", TestData.declarantNonInscrit.getFauxJeton());  // valeur jeton non valide (non inscrit)
@@ -262,7 +262,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401DECLARANTNonInscritTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Invocation invocation = builder.buildGet();
         Map<String, String> map = new HashMap<>();
@@ -283,7 +283,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401CONCENTRATEURNonInscritTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("concentrateur", TestData.concentrateurNonInscrit.getFauxJeton()); // valeur concentrateur non valide  (non inscrit)
@@ -304,7 +304,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher406ACCEPT_ENCODINGMauvaisTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Invocation invocation = builder
                 .acceptEncoding("deflate")// doit contenir gzip
@@ -324,7 +324,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401JETONPasEnBase64Test() throws Exception {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("jeton", URLEncoder.encode("Not a base 64 token", "UTF-8"));  // valeur jeton non valide (pas en base 64)
@@ -343,7 +343,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401CONCENTRATEURPasEnBase64Test() throws Exception {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("concentrateur", URLEncoder.encode("Not a base 64 token", "UTF-8"));// valeur concentrateur non valide (pas en base 64)
@@ -363,7 +363,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher401DECLARANTPasEnBase64Test() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("concentrateur", TestData.concentrateurInscrit.getFauxJeton());
@@ -383,7 +383,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
     void rechercher200ExempleReponse() {
 // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/20130101/20130101");
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/20130101/20130101");
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("concentrateur", TestData.concentrateurInscrit.getFauxJeton()); // valeur concentrateur non valide  (non inscrit)
@@ -415,7 +415,7 @@ public class RechercherRetoursBPIJTest extends BaseTestClass {
 // Given
 
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij/1.0/" + DateUtils.formatShort(new Date()));
+        ResteasyWebTarget target = client.target(getServerUrl() + "/lister-bpij-declarant/1.0/" + DateUtils.formatShort(new Date()));
         Invocation.Builder builder = target.request();
         Map<String, String> map = new HashMap<>();
         map.put("concentrateur", TestData.concentrateurInscrit.getFauxJeton()); // valeur concentrateur non valide  (non inscrit)
