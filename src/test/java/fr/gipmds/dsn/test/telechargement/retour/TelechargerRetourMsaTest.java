@@ -53,6 +53,7 @@ class TelechargerRetourMsaTest extends BaseTestClass {
     void telecharger200ApplicationXmlTest() {
         // Given
         ResteasyClient client = new ResteasyClientBuilder().disableTrustManager().build();
+        String test = getServerUrl();
         ResteasyWebTarget target = client.target(getServerUrl() + "/telecharger-retour/1.0/abcdefghij/65432");
         Builder builder = target.request();
         Map<String, String> map = new HashMap<>();

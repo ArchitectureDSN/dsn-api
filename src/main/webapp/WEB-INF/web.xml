@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+    <display-name>Restful Web Application</display-name>
+    <!--    <context-param>-->
+    <!--        <param-name>resteasy.scan</param-name>-->
+    <!--        <param-value>true</param-value>-->
+    <!--    </context-param>-->
+    <context-param>
+        <param-name>resteasy.resource.method-interceptors</param-name>
+        <param-value>
+            org.jboss.resteasy.core.ResourceMethodSecurityInterceptor
+        </param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>Resteasy</servlet-name>
+        <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>fr.gipmds.dsn.utils.RestApplication</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Resteasy</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+</web-app>
