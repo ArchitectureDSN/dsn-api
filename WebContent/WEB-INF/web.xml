@@ -16,6 +16,10 @@
 	<servlet>
 		<servlet-name>resteasy-servlet</servlet-name>
 		<servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>fr.gipmds.dsn.utils.RestApplication</param-value>
+		</init-param>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>resteasy-servlet</servlet-name>
