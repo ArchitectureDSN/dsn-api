@@ -7,6 +7,8 @@ public class MetadonneesRetour {
     public String nature;
     public String statut; // OK | KO | ANO
     public String id; // Identifiant du flux obtenu lors du dépôt
-    public String url; //
+    public String url;
+    public String delegataire;
+    public String ops;
 
 }

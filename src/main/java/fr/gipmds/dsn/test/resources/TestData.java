@@ -67,7 +67,11 @@ public class TestData {
             + "<retour><publication>20130622012000</publication><production>20130622012000</production><nature>11</nature><statut>OK</statut><id>0123456789</id></retour>"
             + "<retour><publication>20130622012000</publication><production>20130622012000</production><nature>20</nature><statut>OK</statut></retour>"
             + "<retour><publication>20130622012000</publication><production>20130622012000</production><nature>21</nature><statut>KO</statut><id>0123456789</id></retour>"
-            + "</flux></retours>";
+            + "</flux>"
+            + "<flux><id>klmnopqrs</id>"
+            +"<retour><publication>20220412034029</publication><production>20220412034029</production><ops>AUMGM1</ops><delegataire>DZ2114</delegataire><nature>51</nature><statut>OK</statut><id>10111213141</id></retour>"
+            +"</flux>"
+            +"</retours>";
 
     public static final String reponseRechercheVide = "<retours></retours>";
 
